@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-import HeaderMenu from "./HeaderMenu";
+import HeaderMenu from './HeaderMenu';
 
 import './App.css';
 
 class Layout extends Component {
+  state = {}
   render() {
     return (
       <div className="App">
