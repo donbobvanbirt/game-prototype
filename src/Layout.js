@@ -8,6 +8,8 @@ import Map from './map';
 const Container = styled.div`
   height: 100%;
   position: relative;
+  overflow: hidden;
+  background-color: #515151;
 `;
 
 class Layout extends Component {

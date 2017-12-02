@@ -8,6 +8,8 @@
     "class-methods-use-this": "off",
     "react/forbid-prop-types": "off",
     "import/no-unresolved": "off",
-    "no-confusing-arrow": "off"
+    "no-confusing-arrow": "off",
+    "no-plusplus": "off",
+    "react/no-array-index-key": "off"
   }
 }
