@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
+import styled from 'styled-components';
+
+const CustomMenu = styled(Menu)`
+  border-radius: 0 !important;
+`;
 
 export default class HeaderMenu extends Component {
   state = {}
@@ -10,7 +15,7 @@ export default class HeaderMenu extends Component {
     const { activeItem } = this.state;
 
     return (
-      <Menu inverted>
+      <CustomMenu inverted>
         <Menu.Item header>The Game</Menu.Item>
         <Menu.Item name="market" active={activeItem === 'market'} onClick={this.handleItemClick} />
         <Menu.Item name="Stats" active={activeItem === 'Stats'} onClick={this.handleItemClick} />
@@ -27,7 +32,7 @@ export default class HeaderMenu extends Component {
 
           <Menu.Item name="account" active={activeItem === 'account'} onClick={this.handleItemClick} />
         </Menu.Menu>
-      </Menu>
+      </CustomMenu>
     );
   }
 }
