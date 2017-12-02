@@ -19,25 +19,10 @@ const Row = styled.div`
 class Map extends Component {
   state = { grid: defaultGrid, dragging: false }
 
-  handleStart = () => {
-    console.log('in handleStart');
-    this.setState({ dragging: true });
-  }
-
-  handleDrag = () => {
-    // console.log('in handleDrag');
-  }
-
-  handleStop = () => {
-    console.log('in handleStop');
-    this.setState({ dragging: false });
-  }
-
   selectHex = (x, y) => {
     const { grid } = this.state;
-
     grid[x][y].status = 'selected';
-    console.log('grid:', grid);
+
     this.setState({ grid });
   }
 
@@ -64,9 +49,9 @@ class Map extends Component {
         defaultPosition={{ x: -500, y: -500 }}
         position={null}
         grid={[25, 25]}
-        onStart={this.handleStart}
-        onDrag={this.handleDrag}
-        onStop={this.handleStop}
+        onStart={() => this.setState({ dragging: true })}
+
+        onStop={() => this.setState({ dragging: false })}
       >
         <Container className="handle" dragging={dragging}>
           {this.renderGrid()}
