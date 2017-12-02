@@ -36,12 +36,6 @@ class Map extends Component {
 
     this.setState({ grid });
   }
-  // selectHex = (x, y) => {
-  //   const { grid } = this.state;
-  //   grid[x][y].status = 'selected';
-  //
-  //   this.setState({ grid });
-  // }
 
   renderGrid = () => (
     this.state.grid.map((arr, i) => (
@@ -50,7 +44,6 @@ class Map extends Component {
           <Hex
             key={`hex-${i}-${j}`}
             status={hex.status}
-            // onClick={() => this.selectHex(hex.neighbors)}
             onClick={() => this.selectHex(i, j)}
           >
             {`${i}-${j}`}

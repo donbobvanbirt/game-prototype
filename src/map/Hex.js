@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { darkGrey, gray, lightGray } from '../shared/basic/colors';
+import { darkGray, gray, lightGray } from '../shared/basic/colors';
 
 const colors = {
   selected: lightGray,
-  hidden: darkGrey,
+  hidden: darkGray,
   bordered: gray,
 };
 
