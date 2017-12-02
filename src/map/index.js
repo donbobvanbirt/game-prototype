@@ -4,7 +4,7 @@ import Draggable from 'react-draggable';
 
 import Hex from './Hex';
 
-import { grid as defaultGrid } from './utils';
+import { defaultGrid, calculateNeighbors } from './utils';
 
 const Container = styled.div`
   width: 2200px;
@@ -17,14 +17,31 @@ const Row = styled.div`
 `;
 
 class Map extends Component {
-  state = { grid: defaultGrid, dragging: false }
+  state = { grid: defaultGrid(), dragging: false }
 
   selectHex = (x, y) => {
     const { grid } = this.state;
+    const { status } = grid[x][y];
+    if (status !== 'bordered') return;
+
+    const neighbors = calculateNeighbors(x, y);
     grid[x][y].status = 'selected';
+    neighbors.forEach((hexArr) => {
+      const X = hexArr[0];
+      const Y = hexArr[1];
+      if (grid[X][Y].status === 'hidden') {
+        grid[X][Y].status = 'bordered';
+      }
+    });
 
     this.setState({ grid });
   }
+  // selectHex = (x, y) => {
+  //   const { grid } = this.state;
+  //   grid[x][y].status = 'selected';
+  //
+  //   this.setState({ grid });
+  // }
 
   renderGrid = () => (
     this.state.grid.map((arr, i) => (
@@ -33,8 +50,11 @@ class Map extends Component {
           <Hex
             key={`hex-${i}-${j}`}
             status={hex.status}
+            // onClick={() => this.selectHex(hex.neighbors)}
             onClick={() => this.selectHex(i, j)}
-          />
+          >
+            {`${i}-${j}`}
+          </Hex>
         ))}
       </Row>
     ))
@@ -50,7 +70,6 @@ class Map extends Component {
         position={null}
         grid={[25, 25]}
         onStart={() => this.setState({ dragging: true })}
-
         onStop={() => this.setState({ dragging: false })}
       >
         <Container className="handle" dragging={dragging}>

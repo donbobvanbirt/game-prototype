@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { darkGrey, gray } from '../shared/basic/colors';
+import { darkGrey, gray, lightGray } from '../shared/basic/colors';
 
 const colors = {
-  selected: gray,
+  selected: lightGray,
   hidden: darkGrey,
+  bordered: gray,
 };
 
 const Container = styled.div`
@@ -35,10 +36,10 @@ const HexBottom = styled.div`
   border-right: 52px solid transparent;
 `;
 
-const Hex = ({ status, onClick }) => (
+const Hex = ({ status, onClick, children }) => (
   <Container onClick={onClick}>
     <HexTop status={status} />
-    <HexMiddle status={status} />
+    <HexMiddle status={status}>{children}</HexMiddle>
     <HexBottom status={status} />
   </Container>
 );
