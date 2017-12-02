@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 
 import HeaderMenu from './HeaderMenu';
 
-import './App.css';
+const Container = styled.div`
+  height: 100%;
+`;
 
 class Layout extends Component {
   state = {}
   render() {
     return (
-      <div className="App">
+      <Container>
         <HeaderMenu />
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      </Container>
     );
   }
 }
