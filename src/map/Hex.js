@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { darkGray, gray, lightGray } from '../shared/basic/colors';
 
 const colors = {
-  selected: lightGray,
+  controlled: lightGray,
   hidden: darkGray,
   bordered: gray,
 };

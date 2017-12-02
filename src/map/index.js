@@ -25,7 +25,7 @@ class Map extends Component {
     if (status !== 'bordered') return;
 
     const neighbors = calculateNeighbors(x, y);
-    grid[x][y].status = 'selected';
+    grid[x][y].status = 'controlled';
     neighbors.forEach((hexArr) => {
       const X = hexArr[0];
       const Y = hexArr[1];
