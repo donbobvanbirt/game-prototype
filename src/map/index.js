@@ -8,7 +8,7 @@ import { defaultGrid, calculateNeighbors } from './utils';
 
 const Container = styled.div`
   width: 2200px;
-  cursor: ${props => props.dragging ? 'move' : 'pointer'};
+  cursor: ${props => props.dragging ? 'move' : 'default'};
 `;
 
 const Row = styled.div`

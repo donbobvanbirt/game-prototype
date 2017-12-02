@@ -37,9 +37,11 @@ const HexBottom = styled.div`
 `;
 
 const Hex = ({ status, onClick, children }) => (
-  <Container onClick={onClick}>
+  <Container>
     <HexTop status={status} />
-    <HexMiddle status={status}>{children}</HexMiddle>
+    <HexMiddle status={status} onClick={onClick}>
+      {/* {children} */}
+    </HexMiddle>
     <HexBottom status={status} />
   </Container>
 );
