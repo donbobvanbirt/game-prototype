@@ -4,7 +4,7 @@ import Draggable from 'react-draggable';
 
 import Hex from './Hex';
 
-import { grid } from './utils';
+import { grid as defaultGrid } from './utils';
 
 const Container = styled.div`
   width: 2200px;
@@ -17,7 +17,7 @@ const Row = styled.div`
 `;
 
 class Map extends Component {
-  state = { grid, dragging: false }
+  state = { grid: defaultGrid, dragging: false }
 
   handleStart = () => {
     console.log('in handleStart');
@@ -33,11 +33,23 @@ class Map extends Component {
     this.setState({ dragging: false });
   }
 
+  selectHex = (x, y) => {
+    const { grid } = this.state;
+
+    grid[x][y].status = 'selected';
+    console.log('grid:', grid);
+    this.setState({ grid });
+  }
+
   renderGrid = () => (
     this.state.grid.map((arr, i) => (
       <Row key={`row-${i}`} even={i % 2 === 0}>
         {arr.map((hex, j) => (
-          <Hex key={`hex-${i}-${j}`} />
+          <Hex
+            key={`hex-${i}-${j}`}
+            status={hex.status}
+            onClick={() => this.selectHex(i, j)}
+          />
         ))}
       </Row>
     ))

@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import { gray } from '../shared/basic/colors';
+import { darkGrey, gray } from '../shared/basic/colors';
+
+const colors = {
+  selected: gray,
+  hidden: darkGrey,
+};
 
 const Container = styled.div`
   float: left;
@@ -11,7 +17,7 @@ const Container = styled.div`
 
 const HexTop = styled.div`
   width: 0;
-  border-bottom: 30px solid ${gray};
+  border-bottom: 30px solid ${props => colors[props.status]};
   border-left: 52px solid transparent;
   border-right: 52px solid transparent;
 `;
@@ -19,22 +25,32 @@ const HexTop = styled.div`
 const HexMiddle = styled.div`
   width: 104px;
   height: 60px;
-  background-color: ${gray};
+  background-color: ${props => colors[props.status]};
 `;
 
 const HexBottom = styled.div`
   width: 0;
-  border-top: 30px solid ${gray};
+  border-top: 30px solid ${props => colors[props.status]};
   border-left: 52px solid transparent;
   border-right: 52px solid transparent;
 `;
 
-const Hex = () => (
-  <Container>
-    <HexTop />
-    <HexMiddle />
-    <HexBottom />
+const Hex = ({ status, onClick }) => (
+  <Container onClick={onClick}>
+    <HexTop status={status} />
+    <HexMiddle status={status} />
+    <HexBottom status={status} />
   </Container>
 );
+
+Hex.defaultProps = {
+  status: 'hidden',
+  onClick: () => {},
+};
+
+Hex.propTypes = {
+  status: PropTypes.string,
+  onClick: PropTypes.func,
+};
 
 export default Hex;
