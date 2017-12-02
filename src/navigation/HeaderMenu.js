@@ -5,6 +5,9 @@ import styled from 'styled-components';
 const CustomMenu = styled(Menu)`
   border-radius: 0 !important;
   z-index: 999;
+  position: absolute;
+  left: 0;
+  right: 0;
 `;
 
 export default class HeaderMenu extends Component {
