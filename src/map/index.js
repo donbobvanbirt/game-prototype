@@ -22,7 +22,7 @@ class Map extends Component {
   selectHex = (x, y) => {
     const { grid } = this.state;
     const { status } = grid[x][y];
-    if (status !== 'bordered') return;
+    if (status !== 'visible') return;
 
     const neighbors = calculateNeighbors(x, y);
     grid[x][y].status = 'controlled';
@@ -30,7 +30,7 @@ class Map extends Component {
       const X = hexArr[0];
       const Y = hexArr[1];
       if (grid[X][Y].status === 'hidden') {
-        grid[X][Y].status = 'bordered';
+        grid[X][Y].status = 'visible';
       }
     });
 

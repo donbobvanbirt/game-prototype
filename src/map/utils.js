@@ -34,7 +34,7 @@ export const defaultGrid = () => {
     for (let y = 0; y < 20; y++) {
       const position = [x, y];
       const status = (position.join() === '8,8') ? 'controlled' :
-        neighbors.indexOf(position.join()) > -1 ? 'bordered' : 'hidden';
+        neighbors.indexOf(position.join()) > -1 ? 'visible' : 'hidden';
       row.push({
         position,
         status,

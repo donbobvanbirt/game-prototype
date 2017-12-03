@@ -7,7 +7,7 @@ import { darkGray, gray, lightGray } from '../shared/basic/colors';
 const colors = {
   controlled: lightGray,
   hidden: darkGray,
-  bordered: gray,
+  visible: gray,
 };
 
 const Container = styled.div`
