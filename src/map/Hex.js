@@ -36,7 +36,11 @@ const HexBottom = styled.div`
   border-right: 52px solid transparent;
 `;
 
-const Hex = ({ status, onClick, children }) => (
+const Hex = ({
+  status,
+  onClick,
+  // children,
+}) => (
   <Container>
     <HexTop status={status} />
     <HexMiddle status={status} onClick={onClick}>

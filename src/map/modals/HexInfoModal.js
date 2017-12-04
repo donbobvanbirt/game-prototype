@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Icon, List, Header, Table } from 'semantic-ui-react';
+import { Modal, List, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import IndustryTable from '../IndustryTable';
