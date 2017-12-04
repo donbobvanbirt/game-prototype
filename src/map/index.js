@@ -49,6 +49,7 @@ class Map extends Component {
   }
 
   viewHex = (hex) => {
+    if (hex.status === 'hidden') return;
     this.setState({ selectedHex: hex });
   }
 
