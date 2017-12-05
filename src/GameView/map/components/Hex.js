@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { darkGray, gray, lightGray } from '../shared/basic/colors';
+import { darkGray, gray, lightGray } from '../../../shared/basic/colors';
 
 const colors = {
   controlled: lightGray,

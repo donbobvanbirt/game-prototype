@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Draggable from 'react-draggable';
 
-import Hex from './Hex';
-import { HexInfoModal } from './modals';
+import Hex from './components/Hex';
+import { HexInfoModal } from './components/modals';
 
 import { defaultGrid, calculateNeighbors } from './utils';
 

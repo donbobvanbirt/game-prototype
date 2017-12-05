@@ -12,7 +12,7 @@ const Container = styled.div`
   background-color: ${black};
 `;
 
-class Footer extends Component {
+class GameMenu extends Component {
   state = {}
   render() {
     return (
@@ -21,4 +21,4 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+export default GameMenu;

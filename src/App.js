@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import Layout from './Layout';
+import GameView from './GameView';
 
 import store from './store';
 
 const App = () => (
   <Provider store={store}>
-    <Layout />
+    <GameView />
   </Provider>
 );
 
