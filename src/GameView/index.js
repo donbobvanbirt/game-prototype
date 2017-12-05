@@ -15,13 +15,30 @@ const Container = styled.div`
 `;
 
 class Layout extends Component {
-  state = {}
+  state = {
+    resources: {
+      energy: 1000,
+      iron: 1000,
+      gold: 350,
+      silver: 400,
+      nickel: 1000,
+      carbon: 1000,
+      hydrogen: 1000,
+      platinum: 1000,
+      silicon: 1000,
+      copper: 200,
+      steel: 1000,
+      machineParts: 50,
+      computerHardware: 133,
+    },
+  }
   render() {
+    const { resources } = this.state;
     return (
       <Container>
         <HeaderMenu />
-        <Map />
-        <GameMenu />
+        <Map resources={resources} />
+        <GameMenu resources={resources} />
       </Container>
     );
   }
