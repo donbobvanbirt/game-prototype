@@ -63,8 +63,9 @@ class Map extends Component {
         {arr.map((hex, j) => (
           <Hex
             key={`hex-${i}-${j}`}
-            status={hex.status}
+            // status={hex.status}
             onClick={() => this.viewHex(hex)}
+            {...hex}
           >
             {`${i}-${j}`}
           </Hex>

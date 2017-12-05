@@ -28,16 +28,15 @@ export function calculateNeighbors(x, y) {
 
 export const defaultGrid = () => {
   const grid = [];
-  const neighbors = calculateNeighbors(8, 8).map(pos => pos.join());
   for (let x = 0; x < 20; x++) {
     const row = [];
     for (let y = 0; y < 20; y++) {
       const position = [x, y];
-      const status = (position.join() === '8,8') ? 'controlled' :
-        neighbors.indexOf(position.join()) > -1 ? 'visible' : 'hidden';
+      const status = (position.join() === '8,8') ? 'visible' : 'hidden';
       row.push({
         position,
         status,
+        number: (y + 1) + (x * 20),
       });
     }
     grid.push(row);
