@@ -105,7 +105,7 @@ class IndustryTable extends Component {
         {/* <TableLink>
           Upgrade
         </TableLink> : */}
-        <TableLink onClick={() => {}}>Build</TableLink>
+        <TableLink onClick={() => this.build(displayName)}>Build</TableLink>
       </Table.Cell>
     </Table.Row>
   )
