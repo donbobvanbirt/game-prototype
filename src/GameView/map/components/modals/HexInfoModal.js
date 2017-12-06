@@ -23,11 +23,10 @@ const HexInfoModal = ({ hex, close, buildBase }) => {
 
           <ContentContainer>
             {!controlled && <p>You must build a base to gain controll of this area</p>}
-            <Header as="h3">Resources:</Header>
+            <Header as="h3">Abundant in:</Header>
             <List>
-              <List.Item>Low on Hydrogen</List.Item>
-              <List.Item>Abundant in Iron</List.Item>
-              <List.Item>Abundant in Helium</List.Item>
+              <List.Item>Iron</List.Item>
+              <List.Item>Helium</List.Item>
             </List>
           </ContentContainer>
 
