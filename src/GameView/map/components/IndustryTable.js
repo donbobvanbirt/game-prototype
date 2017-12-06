@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Table } from 'semantic-ui-react';
+import { Icon, Table, Popup, List } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 const industrialItems = {
@@ -92,7 +92,18 @@ const TableLink = styled.a`
 class IndustryTable extends Component {
   build = (item) => {
     if (item === 'Base') return this.props.buildBase();
+    return null;
   }
+
+  renderCostList = costObj => (
+    <List>
+      {Object.keys(costObj).map((item, i) => (
+        <List.Item key={`cost-list-item-${i}`}>
+          {`- ${costObj[item]} ${item}`}
+        </List.Item>
+      ))}
+    </List>
+  );
 
   renderTableRow = ({ cost, icon, displayName }) => (
     <Table.Row disabled={false} key={`industry-row-${displayName}`}>
@@ -101,11 +112,15 @@ class IndustryTable extends Component {
       </Table.Cell>
       <Table.Cell collapsing>level</Table.Cell>
       <Table.Cell>[description]</Table.Cell>
-      <Table.Cell selectable>
+      <Table.Cell textAlign="right" selectable>
         {/* <TableLink>
           Upgrade
         </TableLink> : */}
-        <TableLink onClick={() => this.build(displayName)}>Build</TableLink>
+        <Popup
+          content={this.renderCostList(cost)}
+          trigger={<TableLink onClick={() => this.build(displayName)}>Build</TableLink>}
+        />
+
       </Table.Cell>
     </Table.Row>
   )
