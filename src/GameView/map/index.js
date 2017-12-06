@@ -48,6 +48,10 @@ class Map extends Component {
     this.setState({ grid, selectedHex });
   }
 
+  // build = (item) => {
+  //
+  // }
+
   viewHex = (hex) => {
     if (hex.status === 'hidden') return;
     this.setState({ selectedHex: hex });
@@ -76,6 +80,7 @@ class Map extends Component {
 
   render() {
     const { dragging, selectedHex } = this.state;
+    // const { resources } = this.props;
 
     return (
       <Draggable
