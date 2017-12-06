@@ -5,7 +5,7 @@ import Draggable from 'react-draggable';
 import Hex from './components/Hex';
 import { HexInfoModal } from './components/modals';
 
-import { defaultGrid, calculateNeighbors } from './utils';
+import { defaultGrid, calculateNeighbors, industrialItems } from './utils';
 
 const Container = styled.div`
   width: 2200px;
@@ -24,9 +24,9 @@ class Map extends Component {
     selectedHex: null,
   }
 
-  buildBase = () => {
-    const { grid, selectedHex } = this.state;
-    // const { status } = grid[x][y];
+  buildBase = (grid, selectedHex) => {
+    const newGrid = grid;
+    const newHex = selectedHex;
     const { status, position } = selectedHex;
     const x = position[0];
     const y = position[1];
@@ -34,23 +34,34 @@ class Map extends Component {
     if (status !== 'visible') return;
 
     const neighbors = calculateNeighbors(x, y);
-    grid[x][y].status = 'controlled';
-    selectedHex.status = 'controlled';
+    newGrid[x][y].status = 'controlled';
+    newHex.status = 'controlled';
 
     neighbors.forEach((hexArr) => {
       const X = hexArr[0];
       const Y = hexArr[1];
-      if (grid[X][Y].status === 'hidden') {
-        grid[X][Y].status = 'visible';
+      if (newGrid[X][Y].status === 'hidden') {
+        newGrid[X][Y].status = 'visible';
       }
     });
 
-    this.setState({ grid, selectedHex });
+    this.setState({ grid: newGrid, selectedHex: newHex });
   }
 
-  // build = (item) => {
-  //
-  // }
+  build = (item) => {
+    const itemObj = industrialItems[item];
+    const { grid, selectedHex } = this.state;
+    const { position, buildings } = selectedHex;
+    const x = position[0];
+    const y = position[1];
+
+    selectedHex.buildings = [...buildings, itemObj];
+    grid[x][y] = selectedHex;
+
+    if (item === 'base') return this.buildBase(grid, selectedHex);
+
+    this.setState({ grid, selectedHex });
+  }
 
   viewHex = (hex) => {
     if (hex.status === 'hidden') return;
@@ -97,7 +108,7 @@ class Map extends Component {
             <HexInfoModal
               hex={selectedHex}
               close={this.closeHexModal}
-              buildBase={this.buildBase}
+              build={this.build}
             />}
         </Container>
       </Draggable>

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
 
 import { darkGray, gray, lightGray } from '../../../shared/basic/colors';
 
@@ -36,15 +37,23 @@ const HexBottom = styled.div`
   border-right: 52px solid transparent;
 `;
 
+const BuildingIcons = (buildings) => {
+  if (!buildings.length) return null;
+
+  return buildings.map(({ icon }, i) => (
+    <Icon name={icon} key={`building-icon-${i}`} />
+  ));
+};
+
 const Hex = ({
   status,
   onClick,
-  // children,
+  buildings,
 }) => (
   <Container>
     <HexTop status={status} />
     <HexMiddle status={status} onClick={onClick}>
-      {/* {children} */}
+      {BuildingIcons(buildings)}
     </HexMiddle>
     <HexBottom status={status} />
   </Container>
@@ -58,6 +67,7 @@ Hex.defaultProps = {
 Hex.propTypes = {
   status: PropTypes.string,
   onClick: PropTypes.func,
+  buildings: PropTypes.array.isRequired,
 };
 
 export default Hex;
