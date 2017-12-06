@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Draggable from 'react-draggable';
+import PropTypes from 'prop-types';
 
 import Hex from './components/Hex';
 import { HexInfoModal } from './components/modals';
@@ -57,6 +58,8 @@ class Map extends Component {
 
     selectedHex.buildings = [...buildings, itemObj];
     grid[x][y] = selectedHex;
+
+    this.props.debitResources(itemObj.cost);
 
     if (item === 'base') return this.buildBase(grid, selectedHex);
 
@@ -116,5 +119,9 @@ class Map extends Component {
     );
   }
 }
+
+Map.propTypes = {
+  debitResources: PropTypes.func.isRequired,
+};
 
 export default Map;

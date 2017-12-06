@@ -32,12 +32,25 @@ class Layout extends Component {
       computerHardware: 133,
     },
   }
+
+  debitResources = (costObj) => {
+    const { resources } = this.state;
+
+    Object.keys(costObj).forEach((resource) => {
+      const previousBallance = resources[resource];
+      const newBalance = previousBallance - costObj[resource];
+      resources[resource] = newBalance;
+    });
+
+    this.setState({ resources });
+  }
+
   render() {
     const { resources } = this.state;
     return (
       <Container>
         <HeaderMenu />
-        <Map resources={resources} />
+        <Map resources={resources} debitResources={this.debitResources} />
         <GameMenu resources={resources} />
       </Container>
     );
