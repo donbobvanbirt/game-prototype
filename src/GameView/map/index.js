@@ -67,17 +67,17 @@ class Map extends Component {
     this.setState({ grid, selectedHex });
   }
 
-  // getBuildableStatus = (item) => {
-  //   const itemObj = industrialItems[item];
-  //   const { selectedHex } = this.state;
-  //   const { cost } = itemObj;
-  //
-  //   const existingBuildings = selectedHex.buildings.map(buildingObj => (
-  //     buildingObj.displayName
-  //   ));
-  //
-  //   if (existingBuildings.contains(itemObj.displayName)) return 'alread'
-  // }
+  canAfford = (cost) => {
+    const { resources } = this.props;
+    const neededResources = Object.keys(cost);
+
+    for (let i = 0; i < neededResources.length; i++) {
+      const resource = neededResources[i];
+      if (resources[resource] - cost[resource] < 0) return false;
+    }
+
+    return true;
+  }
 
   viewHex = (hex) => {
     if (hex.status === 'hidden') return;
@@ -107,7 +107,6 @@ class Map extends Component {
 
   render() {
     const { dragging, selectedHex } = this.state;
-    // const { resources } = this.props;
 
     return (
       <Draggable
@@ -125,6 +124,7 @@ class Map extends Component {
               hex={selectedHex}
               close={this.closeHexModal}
               build={this.build}
+              canAfford={this.canAfford}
             />}
         </Container>
       </Draggable>
@@ -135,6 +135,7 @@ class Map extends Component {
 
 Map.propTypes = {
   debitResources: PropTypes.func.isRequired,
+  resources: PropTypes.array.isRequired,
 };
 
 export default Map;

@@ -26,19 +26,21 @@ class IndustryTable extends Component {
     displayName,
     description,
   }, item) => {
-    const { buildings } = this.props;
-    const canAfford = true;
+    const { buildings, controlled, canAfford } = this.props;
+
+    const affordable = canAfford(cost);
+    const canBuild = affordable && (controlled || item === 'base');
 
     if (buildings[item]) return null;
 
     return (
-      <Table.Row disabled={!canAfford} key={`industry-row-${displayName}`}>
+      <Table.Row disabled={!canBuild} key={`industry-row-${displayName}`}>
         <Table.Cell collapsing>
           <Icon name={icon} /> {displayName}
         </Table.Cell>
         <Table.Cell>{description}</Table.Cell>
         {
-          canAfford ?
+          canBuild ?
             <Table.Cell selectable>
               <Popup
                 content={this.renderCostList(cost)}
@@ -67,7 +69,8 @@ class IndustryTable extends Component {
 IndustryTable.propTypes = {
   build: PropTypes.func.isRequired,
   buildings: PropTypes.object.isRequired,
-  // controlled: PropTypes.bool.isRequired,
+  controlled: PropTypes.bool.isRequired,
+  canAfford: PropTypes.func.isRequired,
 };
 
 export default IndustryTable;

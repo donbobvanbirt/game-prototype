@@ -12,7 +12,12 @@ const ContentContainer = styled.div`
   margin-bottom: 21px;
 `;
 
-const HexInfoModal = ({ hex, close, build }) => {
+const HexInfoModal = ({
+  hex,
+  close,
+  build,
+  canAfford,
+}) => {
   const { status, buildings } = hex;
   const controlled = status === 'controlled';
   return (
@@ -40,7 +45,12 @@ const HexInfoModal = ({ hex, close, build }) => {
           }
 
           <Header as="h3">Build:</Header>
-          <IndustryTable controlled={controlled} build={build} buildings={buildings} />
+          <IndustryTable
+            controlled={controlled}
+            build={build}
+            buildings={buildings}
+            canAfford={canAfford}
+          />
 
         </Modal.Description>
       </Modal.Content>
@@ -52,6 +62,7 @@ HexInfoModal.propTypes = {
   hex: PropTypes.object.isRequired,
   close: PropTypes.func.isRequired,
   build: PropTypes.func.isRequired,
+  canAfford: PropTypes.func.isRequired,
 };
 
 export default HexInfoModal;
