@@ -135,7 +135,7 @@ class Map extends Component {
 
 Map.propTypes = {
   debitResources: PropTypes.func.isRequired,
-  resources: PropTypes.array.isRequired,
+  resources: PropTypes.object.isRequired,
 };
 
 export default Map;

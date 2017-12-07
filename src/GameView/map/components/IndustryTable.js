@@ -25,13 +25,21 @@ class IndustryTable extends Component {
     icon,
     displayName,
     description,
+    type,
   }, item) => {
     const { buildings, controlled, canAfford } = this.props;
 
-    const affordable = canAfford(cost);
-    const canBuild = affordable && (controlled || item === 'base');
-
     if (buildings[item]) return null;
+
+    const availableSpaces = 1;
+    const spaceAvailable = Object.keys(buildings)
+      .filter(building => buildings[building].type === type)
+      .length < availableSpaces;
+
+    const affordable = canAfford(cost);
+    const canBuild = affordable &&
+      (controlled || item === 'base') &&
+      spaceAvailable;
 
     return (
       <Table.Row disabled={!canBuild} key={`industry-row-${displayName}`}>
