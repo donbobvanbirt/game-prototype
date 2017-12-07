@@ -52,11 +52,12 @@ class Map extends Component {
   build = (item) => {
     const itemObj = industrialItems[item];
     const { grid, selectedHex } = this.state;
-    const { position, buildings } = selectedHex;
+    const { position } = selectedHex;
     const x = position[0];
     const y = position[1];
 
-    selectedHex.buildings = [...buildings, itemObj];
+    itemObj.level = 1;
+    selectedHex.buildings[item] = itemObj;
     grid[x][y] = selectedHex;
 
     this.props.debitResources(itemObj.cost);
@@ -65,6 +66,18 @@ class Map extends Component {
 
     this.setState({ grid, selectedHex });
   }
+
+  // getBuildableStatus = (item) => {
+  //   const itemObj = industrialItems[item];
+  //   const { selectedHex } = this.state;
+  //   const { cost } = itemObj;
+  //
+  //   const existingBuildings = selectedHex.buildings.map(buildingObj => (
+  //     buildingObj.displayName
+  //   ));
+  //
+  //   if (existingBuildings.contains(itemObj.displayName)) return 'alread'
+  // }
 
   viewHex = (hex) => {
     if (hex.status === 'hidden') return;

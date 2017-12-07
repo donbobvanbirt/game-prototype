@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, List, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { isEmpty } from 'lodash';
 
 import IndustryTable from '../IndustryTable';
+import BuildingsTable from '../BuildingsTable';
 
 const ContentContainer = styled.div`
   with: 100%;
@@ -11,7 +13,7 @@ const ContentContainer = styled.div`
 `;
 
 const HexInfoModal = ({ hex, close, build }) => {
-  const { status } = hex;
+  const { status, buildings } = hex;
   const controlled = status === 'controlled';
   return (
     <Modal open={!!hex} onClose={close} closeIcon>
@@ -30,8 +32,15 @@ const HexInfoModal = ({ hex, close, build }) => {
             </List>
           </ContentContainer>
 
-          <Header as="h3">Industry:</Header>
-          <IndustryTable controlled={controlled} build={build} />
+          {!isEmpty(buildings) &&
+            <div>
+              <Header as="h3">Industry:</Header>
+              <BuildingsTable buildings={buildings} />
+            </div>
+          }
+
+          <Header as="h3">Build:</Header>
+          <IndustryTable controlled={controlled} build={build} buildings={buildings} />
 
         </Modal.Description>
       </Modal.Content>

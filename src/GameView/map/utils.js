@@ -37,7 +37,7 @@ export const defaultGrid = () => {
         position,
         status,
         number: (y + 1) + (x * 20),
-        buildings: [],
+        buildings: {},
       });
     }
     grid.push(row);
@@ -56,6 +56,7 @@ export const industrialItems = {
     icon: 'home',
     displayName: 'Base',
     description: 'Required to gain controll',
+    type: 'base',
   },
   ironMine: {
     cost: {
@@ -65,6 +66,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Iron Mine',
     description: 'Mines iron from your astroid',
+    type: 'mine',
   },
   goldMine: {
     cost: {
@@ -74,6 +76,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Gold Mine',
     description: 'Mines gold from your astroid',
+    type: 'mine',
   },
   silverMine: {
     cost: {
@@ -83,6 +86,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Silver Mine',
     description: 'Mines silver from your astroid',
+    type: 'mine',
   },
   nickelMine: {
     cost: {
@@ -92,6 +96,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Nickel Mine',
     description: 'Mines nickel from your astroid',
+    type: 'mine',
   },
   carbonMine: {
     cost: {
@@ -101,6 +106,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Carbon Mine',
     description: 'Mines carbon from your astroid',
+    type: 'mine',
   },
   hydrogenMine: {
     cost: {
@@ -110,6 +116,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Hydrogen Mine',
     description: 'Mines hydrogen from your astroid',
+    type: 'mine',
   },
   platinumMine: {
     cost: {
@@ -119,6 +126,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Platinum Mine',
     description: 'Mines platinum from your astroid',
+    type: 'mine',
   },
   siliconMine: {
     cost: {
@@ -128,6 +136,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Silicon Mine',
     description: 'Mines silicon from your astroid',
+    type: 'mine',
   },
   copperMine: {
     cost: {
@@ -137,6 +146,7 @@ export const industrialItems = {
     icon: 'cubes',
     displayName: 'Copper Mine',
     description: 'Mines copper from your astroid',
+    type: 'mine',
   },
   powerPlant: {
     cost: {
@@ -147,6 +157,7 @@ export const industrialItems = {
     icon: 'lightning',
     displayName: 'Power Plant',
     description: 'Converts carbon into energy',
+    type: 'power',
   },
   generator: {
     cost: {
@@ -157,6 +168,7 @@ export const industrialItems = {
     icon: 'lightning',
     displayName: 'Generator',
     description: 'Converts hydrogen into energy',
+    type: 'power',
   },
   steelFactory: {
     cost: {
@@ -167,6 +179,7 @@ export const industrialItems = {
     icon: 'factory',
     displayName: 'Steel Factory',
     description: 'Converts iron, nickel, and silver into steel',
+    type: 'factory',
   },
   industrialSuppliesFactory: {
     cost: {
@@ -179,6 +192,7 @@ export const industrialItems = {
     icon: 'factory',
     displayName: 'Industrial Supplies Factory',
     description: 'Manufactures machine parts',
+    type: 'factory',
   },
   computerHardwareFactory: {
     cost: {
@@ -193,6 +207,7 @@ export const industrialItems = {
     icon: 'factory',
     displayName: 'Computer Hardware Factory',
     description: 'Manufactures computer hardware',
+    type: 'factory',
   },
   solarFarm: {
     cost: {
@@ -206,5 +221,6 @@ export const industrialItems = {
     icon: 'lightning',
     displayName: 'Solar Farm',
     description: 'Produces energy',
+    type: 'power',
   },
 };

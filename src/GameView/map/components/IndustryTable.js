@@ -10,11 +10,6 @@ const TableLink = styled.a`
 `;
 
 class IndustryTable extends Component {
-  // build = (item) => {
-  //   if (item === 'Base') return this.props.buildBase();
-  //   return null;
-  // }
-
   renderCostList = costObj => (
     <List>
       {Object.keys(costObj).map((item, i) => (
@@ -30,25 +25,31 @@ class IndustryTable extends Component {
     icon,
     displayName,
     description,
-  }, item) => (
-    <Table.Row disabled={false} key={`industry-row-${displayName}`}>
-      <Table.Cell collapsing>
-        <Icon name={icon} /> {displayName}
-      </Table.Cell>
-      <Table.Cell collapsing>[level]</Table.Cell>
-      <Table.Cell>{description}</Table.Cell>
-      <Table.Cell textAlign="right" selectable>
-        {/* <TableLink>
-          Upgrade
-        </TableLink> : */}
-        <Popup
-          content={this.renderCostList(cost)}
-          trigger={<TableLink onClick={() => this.props.build(item)}>Build</TableLink>}
-        />
+  }, item) => {
+    const { buildings } = this.props;
+    const canAfford = true;
 
-      </Table.Cell>
-    </Table.Row>
-  )
+    if (buildings[item]) return null;
+
+    return (
+      <Table.Row disabled={!canAfford} key={`industry-row-${displayName}`}>
+        <Table.Cell collapsing>
+          <Icon name={icon} /> {displayName}
+        </Table.Cell>
+        <Table.Cell>{description}</Table.Cell>
+        {
+          canAfford ?
+            <Table.Cell selectable>
+              <Popup
+                content={this.renderCostList(cost)}
+                trigger={<TableLink onClick={() => this.props.build(item)}>Build</TableLink>}
+              />
+            </Table.Cell> :
+            <Table.Cell />
+        }
+      </Table.Row>
+    );
+  }
 
   render() {
     return (
@@ -65,6 +66,7 @@ class IndustryTable extends Component {
 
 IndustryTable.propTypes = {
   build: PropTypes.func.isRequired,
+  buildings: PropTypes.object.isRequired,
   // controlled: PropTypes.bool.isRequired,
 };
 

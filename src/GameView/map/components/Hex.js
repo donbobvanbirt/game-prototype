@@ -37,11 +37,12 @@ const HexBottom = styled.div`
   border-right: 52px solid transparent;
 `;
 
-const BuildingIcons = (buildings) => {
+const BuildingIcons = (buildingsObj) => {
+  const buildings = Object.keys(buildingsObj);
   if (!buildings.length) return null;
 
-  return buildings.map(({ icon }, i) => (
-    <Icon name={icon} key={`building-icon-${i}`} />
+  return buildings.map((building, i) => (
+    <Icon name={buildingsObj[building].icon} key={`building-icon-${i}`} />
   ));
 };
 
@@ -59,15 +60,10 @@ const Hex = ({
   </Container>
 );
 
-Hex.defaultProps = {
-  status: 'hidden',
-  onClick: () => {},
-};
-
 Hex.propTypes = {
-  status: PropTypes.string,
-  onClick: PropTypes.func,
-  buildings: PropTypes.array.isRequired,
+  status: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  buildings: PropTypes.object.isRequired,
 };
 
 export default Hex;
