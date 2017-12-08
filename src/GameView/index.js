@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import HeaderMenu from '../navigation/HeaderMenu';
-import GameMenu from './GameMenu';
-import Map from './map';
+import GameMenu from './components/GameMenu';
+import Map from './components/Map';
 
 import { darkGray } from '../shared/basic/colors';
 

@@ -9,7 +9,7 @@ import {
   green,
   red,
   yellow,
-} from '../shared/basic/colors';
+} from '../../shared/basic/colors';
 
 const resourceGroup1 = [
   { name: 'Iron', value: 'iron' },

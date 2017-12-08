@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import Draggable from 'react-draggable';
 import PropTypes from 'prop-types';
 
-import Hex from './components/Hex';
-import { HexInfoModal } from './components/modals';
+import Hex from './Hex';
+import { HexInfoModal } from './modals';
 
-import { defaultGrid, calculateNeighbors, industrialItems } from './utils';
+import { defaultGrid, calculateNeighbors } from '../utils';
+import { industrialItems } from '../industrialItems';
 
 const Container = styled.div`
   width: 2200px;

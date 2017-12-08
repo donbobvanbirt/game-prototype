@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon, Table, Popup, List } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { industrialItems } from '../utils';
+import { industrialItems } from '../industrialItems';
 
 const TableLink = styled.a`
   cursor: pointer;

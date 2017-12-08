@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
-import { darkGray, gray, lightGray } from '../../../shared/basic/colors';
+import { darkGray, gray, lightGray } from '../../shared/basic/colors';
 
 const colors = {
   controlled: lightGray,
