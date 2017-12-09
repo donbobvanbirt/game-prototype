@@ -8,6 +8,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Put all API endpoints under '/api'
 app.get('/api/sample', (req, res) => {
+  console.log('in api/sample');
   res.json("sample data!!!");
 });
 
