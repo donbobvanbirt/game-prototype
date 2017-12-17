@@ -1,7 +1,9 @@
 require('dotenv').config({ silent: true });
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
 
 const mongoose = require('mongoose');
 
@@ -15,6 +17,9 @@ mongoose.connect(MONGODB_URI, (err) => {
 
 const app = express();
 
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/api', require('./routes/api'));

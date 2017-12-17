@@ -108,7 +108,7 @@ class Map extends Component {
 
   render() {
     const { dragging, selectedHex } = this.state;
-
+    // console.log('this.state.grid:', this.state.grid);
     return (
       <Draggable
         handle=".handle"
