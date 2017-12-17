@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
   const { name } = req.body;
 
   Game.create({
-    map: defaultGrid(),
+    grid: defaultGrid(),
     name,
   })
     .then((newGame) => {

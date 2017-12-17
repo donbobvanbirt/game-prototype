@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const gameSchema = new mongoose.Schema({
-  map: { type: Array, required: true },
+  grid: { type: Array, required: true },
   name: { type: String, required: true },
   resources: {
     energy: { type: Number, required: true, default: 1000 },
