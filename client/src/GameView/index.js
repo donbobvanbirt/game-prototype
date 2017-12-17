@@ -1,18 +1,30 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Dimmer, Loader } from 'semantic-ui-react';
+import { isEmpty } from 'lodash';
 
 import HeaderMenu from '../navigation/HeaderMenu';
 import GameMenu from './components/GameMenu';
 import Map from './components/Map';
 
-import { darkGray } from '../shared/basic/colors';
+import { getGame } from './actions';
+
+import { darkGray, red } from '../shared/basic/colors';
 
 const Container = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
   background-color: ${darkGray};
+`;
+
+const ErrorMessage = styled.h1`
+  margin: 50px;
+  color: ${red};
 `;
 
 class Layout extends Component {
@@ -35,8 +47,9 @@ class Layout extends Component {
   }
 
   componentDidMount() {
-    axios.get('api/sample')
-      .then(data => console.log('data:', data));
+    const { requestGame, match } = this.props;
+
+    requestGame(match.params.id);
   }
 
   debitResources = (costObj) => {
@@ -53,14 +66,38 @@ class Layout extends Component {
 
   render() {
     const { resources } = this.state;
+    const { game } = this.props;
+
     return (
       <Container>
         <HeaderMenu />
-        <Map resources={resources} debitResources={this.debitResources} />
-        <GameMenu resources={resources} />
+        <Dimmer active={isEmpty(game)}>
+          <Loader />
+        </Dimmer>
+        {game.error && <ErrorMessage>game not found</ErrorMessage>}
+        <Map resources={resources} game={game} debitResources={this.debitResources} />
+        <GameMenu resources={game.resources} />
       </Container>
     );
   }
 }
 
-export default Layout;
+Layout.propTypes = {
+  requestGame: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  game: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = ({ game }) => ({
+  game,
+});
+
+const mapDispatchToProps = dispatch => ({
+  requestGame(id) {
+    dispatch(getGame(id));
+  },
+});
+
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), withRouter);
+
+export default enhance(Layout);

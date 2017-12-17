@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Draggable from 'react-draggable';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import Hex from './Hex';
 import { HexInfoModal } from './modals';
@@ -69,12 +70,12 @@ class Map extends Component {
   }
 
   canAfford = (cost) => {
-    const { resources } = this.props;
+    const { game } = this.props;
     const neededResources = Object.keys(cost);
 
     for (let i = 0; i < neededResources.length; i++) {
       const resource = neededResources[i];
-      if (resources[resource] - cost[resource] < 0) return false;
+      if (game.resources[resource] - cost[resource] < 0) return false;
     }
 
     return true;
@@ -89,26 +90,32 @@ class Map extends Component {
     this.setState({ selectedHex: null });
   }
 
-  renderGrid = () => (
-    this.state.grid.map((arr, i) => (
-      <Row key={`row-${i}`} even={i % 2 === 0}>
-        {arr.map((hex, j) => (
-          <Hex
-            key={`hex-${i}-${j}`}
-            // status={hex.status}
-            onClick={() => this.viewHex(hex)}
-            {...hex}
-          >
-            {`${i}-${j}`}
-          </Hex>
-        ))}
-      </Row>
-    ))
-  )
+  renderGrid = () => {
+    const { game } = this.props;
+    if (!game || !game.grid) return;
+
+    return (
+      this.props.game.grid.map((arr, i) => (
+        <Row key={`row-${i}`} even={i % 2 === 0}>
+          {arr.map((hex, j) => (
+            <Hex
+              key={`hex-${i}-${j}`}
+              // status={hex.status}
+              onClick={() => this.viewHex(hex)}
+              {...hex}
+            >
+              {`${i}-${j}`}
+            </Hex>
+          ))}
+        </Row>
+      ))
+    );
+  }
 
   render() {
     const { dragging, selectedHex } = this.state;
-    // console.log('this.state.grid:', this.state.grid);
+    const { game } = this.props;
+
     return (
       <Draggable
         handle=".handle"
@@ -119,7 +126,7 @@ class Map extends Component {
         onStop={() => this.setState({ dragging: false })}
       >
         <Container className="handle" dragging={dragging}>
-          {this.renderGrid()}
+          {!isEmpty(game) && !game.error && this.renderGrid()}
           {selectedHex &&
             <HexInfoModal
               hex={selectedHex}
@@ -136,7 +143,7 @@ class Map extends Component {
 
 Map.propTypes = {
   debitResources: PropTypes.func.isRequired,
-  resources: PropTypes.object.isRequired,
+  game: PropTypes.object.isRequired,
 };
 
 export default Map;

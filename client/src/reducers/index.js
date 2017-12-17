@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
 
-function placeHolder(state = [], action) {
+function game(state = {}, action) {
   switch (action.type) {
-    case 'SOME_TYPE':
-      return state;
+    case 'GOT_GAME':
+      return action.payload;
+    case 'GET_GAME_FAIL':
+      return { error: action.payload };
     default:
       return state;
   }
 }
 
 export default combineReducers({
-  placeHolder,
+  game,
 });

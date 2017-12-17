@@ -93,18 +93,19 @@ class GameMenu extends Component {
   render() {
     return (
       <Container>
-        <InnerContainer>
-          {this.renderList(resourceGroup1)}
-          {this.renderList(resourceGroup2)}
-          {this.renderList(resourceGroup3)}
-        </InnerContainer>
+        {this.props.resources &&
+          <InnerContainer>
+            {this.renderList(resourceGroup1)}
+            {this.renderList(resourceGroup2)}
+            {this.renderList(resourceGroup3)}
+          </InnerContainer>}
       </Container>
     );
   }
 }
 
 GameMenu.propTypes = {
-  resources: PropTypes.object.isRequired,
+  resources: PropTypes.object,
 };
 
 export default GameMenu;
