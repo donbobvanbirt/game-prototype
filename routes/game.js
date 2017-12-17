@@ -25,11 +25,15 @@ router.put('/:gameId', (req, res) => {
 });
 
 router.get('/:gameId', (req, res) => {
-  // specific game
+  Game.findOne({ _id: req.params.gameId })
+    .then(games => res.send(games))
+    .catch(err => res.status(400).send(err));
 });
 
 router.get('/', (req, res) => {
-  // all games
+  Game.find({}, 'name')
+    .then(games => res.send(games))
+    .catch(err => res.status(400).send(err));
 });
 
 module.exports = router;
