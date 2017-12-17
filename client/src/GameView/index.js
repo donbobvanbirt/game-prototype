@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import HeaderMenu from '../navigation/HeaderMenu';
 import GameMenu from './components/GameMenu';
@@ -31,6 +32,11 @@ class Layout extends Component {
       machineParts: 50,
       computerHardware: 133,
     },
+  }
+
+  componentDidMount() {
+    axios.get('api/sample')
+      .then(data => console.log('data:', data));
   }
 
   debitResources = (costObj) => {
