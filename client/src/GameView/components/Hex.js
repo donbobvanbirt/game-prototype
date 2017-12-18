@@ -60,10 +60,14 @@ const Hex = ({
   </Container>
 );
 
+Hex.defaultProps = {
+  buildings: {},
+};
+
 Hex.propTypes = {
   status: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  buildings: PropTypes.object.isRequired,
+  buildings: PropTypes.object,
 };
 
 export default Hex;

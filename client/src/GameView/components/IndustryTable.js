@@ -74,9 +74,13 @@ class IndustryTable extends Component {
   }
 }
 
+IndustryTable.defaultProps = {
+  buildings: {},
+};
+
 IndustryTable.propTypes = {
   build: PropTypes.func.isRequired,
-  buildings: PropTypes.object.isRequired,
+  buildings: PropTypes.object,
   controlled: PropTypes.bool.isRequired,
   canAfford: PropTypes.func.isRequired,
 };

@@ -1,18 +1,29 @@
+require('dotenv').config({ silent: true });
+
+const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
+
+const mongoose = require('mongoose');
+
+const MONGODB_URI = process.env.MONGOODB_URI;
+
+// MONGOOSE CONFIGURATION
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, (err) => {
+  console.log(err || `MongoDB connected to ${MONGODB_URI}`);
+});
 
 const app = express();
 
-// Serve static files from the React app
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Put all API endpoints under '/api'
-app.get('/api/sample', (req, res) => {
-  res.json("sample data!!!");
-});
+app.use('/api', require('./routes/api'));
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
