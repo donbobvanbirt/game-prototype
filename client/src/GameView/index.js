@@ -11,7 +11,7 @@ import HeaderMenu from '../navigation/HeaderMenu';
 import GameMenu from './components/GameMenu';
 import Map from './components/Map';
 
-import { getGame } from './actions';
+import { getGame, updateGame } from './actions';
 
 import { darkGray, red } from '../shared/basic/colors';
 
@@ -28,24 +28,6 @@ const ErrorMessage = styled.h1`
 `;
 
 class Layout extends Component {
-  state = {
-    resources: {
-      energy: 1000,
-      iron: 1000,
-      gold: 350,
-      silver: 400,
-      nickel: 1000,
-      carbon: 1000,
-      hydrogen: 1000,
-      platinum: 1000,
-      silicon: 1000,
-      copper: 200,
-      steel: 1000,
-      machineParts: 50,
-      computerHardware: 133,
-    },
-  }
-
   componentDidMount() {
     const { requestGame, match } = this.props;
 
@@ -53,7 +35,7 @@ class Layout extends Component {
   }
 
   debitResources = (costObj) => {
-    const { resources } = this.state;
+    const { resources } = this.props.game;
 
     Object.keys(costObj).forEach((resource) => {
       const previousBallance = resources[resource];
@@ -61,12 +43,11 @@ class Layout extends Component {
       resources[resource] = newBalance;
     });
 
-    this.setState({ resources });
+    return resources;
   }
 
   render() {
-    const { resources } = this.state;
-    const { game } = this.props;
+    const { game, update } = this.props;
 
     return (
       <Container>
@@ -75,7 +56,11 @@ class Layout extends Component {
           <Loader />
         </Dimmer>
         {game.error && <ErrorMessage>game not found</ErrorMessage>}
-        <Map resources={resources} game={game} debitResources={this.debitResources} />
+        <Map
+          game={game}
+          debitResources={this.debitResources}
+          updateGame={update}
+        />
         <GameMenu resources={game.resources} />
       </Container>
     );
@@ -84,6 +69,7 @@ class Layout extends Component {
 
 Layout.propTypes = {
   requestGame: PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
 };
@@ -95,6 +81,9 @@ const mapStateToProps = ({ game }) => ({
 const mapDispatchToProps = dispatch => ({
   requestGame(id) {
     dispatch(getGame(id));
+  },
+  update(id, obj) {
+    dispatch(updateGame(id, obj));
   },
 });
 

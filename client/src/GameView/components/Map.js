@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash';
 import Hex from './Hex';
 import { HexInfoModal } from './modals';
 
-import { defaultGrid, calculateNeighbors } from '../utils';
+import { calculateNeighbors } from '../utils';
 import { industrialItems } from '../industrialItems';
 
 const Container = styled.div`
@@ -22,12 +22,12 @@ const Row = styled.div`
 
 class Map extends Component {
   state = {
-    grid: defaultGrid(),
     dragging: false,
     selectedHex: null,
   }
 
-  buildBase = (grid, selectedHex) => {
+  buildBase = (grid, selectedHex, resources) => {
+    const { game, updateGame } = this.props;
     const newGrid = grid;
     const newHex = selectedHex;
     const { status, position } = selectedHex;
@@ -48,25 +48,33 @@ class Map extends Component {
       }
     });
 
-    this.setState({ grid: newGrid, selectedHex: newHex });
+    this.setState({ selectedHex: newHex });
+
+    updateGame(game._id, { grid: newGrid, resources });
   }
 
   build = (item) => {
+    const { game, updateGame } = this.props;
+    const { grid } = game;
     const itemObj = industrialItems[item];
-    const { grid, selectedHex } = this.state;
+    const { selectedHex } = this.state;
     const { position } = selectedHex;
     const x = position[0];
     const y = position[1];
 
     itemObj.level = 1;
+    if (!selectedHex.buildings) {
+      selectedHex.buildings = {};
+    }
     selectedHex.buildings[item] = itemObj;
     grid[x][y] = selectedHex;
 
-    this.props.debitResources(itemObj.cost);
+    const resources = this.props.debitResources(itemObj.cost);
 
-    if (item === 'base') return this.buildBase(grid, selectedHex);
+    if (item === 'base') return this.buildBase(grid, selectedHex, resources);
 
-    this.setState({ grid, selectedHex });
+    this.setState({ selectedHex });
+    updateGame(game._id, { grid, resources });
   }
 
   canAfford = (cost) => {
@@ -143,6 +151,7 @@ class Map extends Component {
 
 Map.propTypes = {
   debitResources: PropTypes.func.isRequired,
+  updateGame: PropTypes.func.isRequired,
   game: PropTypes.object.isRequired,
 };
 

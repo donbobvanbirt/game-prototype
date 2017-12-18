@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 
 const gameSchema = new mongoose.Schema({
-  grid: { type: Array, required: true },
-  name: { type: String, required: true },
+  grid: [[{
+    number: { type: Number },
+    status: { type: String },
+    position: { type: Array },
+    buildings: { type: Object },
+  }]],
+  // name: { type: String, required: true },
   resources: {
     energy: { type: Number, required: true, default: 1000 },
     iron: { type: Number, required: true, default: 1000 },

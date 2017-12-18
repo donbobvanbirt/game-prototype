@@ -7,9 +7,23 @@ function gotGame(data) {
   };
 }
 
+function updatedGame(data) {
+  return {
+    type: 'UPDATED_GAME',
+    payload: data,
+  };
+}
+
 function getGameFail(error) {
   return {
     type: 'GET_GAME_FAIL',
+    payload: error,
+  };
+}
+
+function updateGameFail(error) {
+  return {
+    type: 'UPDATE_GAME_FAIL',
     payload: error,
   };
 }
@@ -21,6 +35,17 @@ export function getGame(id) {
       .catch((error) => {
         console.error('error fetching game', error);
         return dispatch(getGameFail(error));
+      })
+  );
+}
+
+export function updateGame(id, newGameObj) {
+  return dispatch => (
+    axios.put(`/api/game/${id}`, newGameObj)
+      .then(res => dispatch(updatedGame(res.data)))
+      .catch((error) => {
+        console.error('error fetching game', error);
+        return dispatch(updateGameFail(error));
       })
   );
 }
