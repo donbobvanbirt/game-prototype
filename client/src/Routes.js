@@ -7,12 +7,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // `;
 
 import GameView from './GameView';
-import ChooseGame from './ChooseGame';
+import CreateGame from './CreateGame';
 
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path="/" component={ChooseGame} />
+      <Route exact path="/" component={CreateGame} />
       <Route exact path="/game/:id" component={GameView} />
     </Switch>
   </BrowserRouter>
