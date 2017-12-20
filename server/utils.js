@@ -26,6 +26,36 @@ function calculateNeighbors(x, y) {
   ].filter(validate);
 }
 
+function calculateAbundance() {
+  const abundantResources = [];
+
+  const commonNumber = Math.random();
+  if (commonNumber < 0.15) {
+    abundantResources.push('carbon');
+  } else if (commonNumber < 0.3) {
+    abundantResources.push('silicon');
+  } else if (commonNumber < 0.5) {
+    abundantResources.push('hydrogen');
+  }
+
+  const rareNumber = Math.random();
+  if (rareNumber < 0.1) {
+    abundantResources.push('iron');
+  } else if (rareNumber < 0.22) {
+    abundantResources.push('nickel');
+  } else if (rareNumber < 0.34) {
+    abundantResources.push('copper');
+  } else if (rareNumber < 0.42) {
+    abundantResources.push('silver');
+  } else if (rareNumber < 0.46) {
+    abundantResources.push('gold');
+  } else if (rareNumber < 0.48) {
+    abundantResources.push('platinum');
+  }
+
+  return abundantResources;
+}
+
 const defaultGrid = () => {
   const grid = [];
   for (let x = 0; x < 20; x++) {
@@ -38,6 +68,7 @@ const defaultGrid = () => {
         status,
         number: (y + 1) + (x * 20),
         buildings: {},
+        resourceAbundance: calculateAbundance(),
       });
     }
     grid.push(row);

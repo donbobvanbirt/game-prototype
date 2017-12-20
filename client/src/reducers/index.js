@@ -6,8 +6,19 @@ function game(state = {}, action) {
     case 'UPDATED_GAME':
       return action.payload;
     case 'GET_GAME_FAIL':
+      return {
+        error: {
+          data: action.payload,
+          message: 'game not found',
+        },
+      };
     case 'UPDATE_GAME_FAIL':
-      return { error: action.payload };
+      return {
+        error: {
+          data: action.payload,
+          message: 'error updating game',
+        },
+      };
     default:
       return state;
   }

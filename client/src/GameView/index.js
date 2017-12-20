@@ -55,7 +55,10 @@ class Layout extends Component {
         <Dimmer active={isEmpty(game)}>
           <Loader />
         </Dimmer>
-        {game.error && <ErrorMessage>game not found</ErrorMessage>}
+        {game.error &&
+          <ErrorMessage>
+            {game.error.message || 'something bad happened'}
+          </ErrorMessage>}
         <Map
           game={game}
           debitResources={this.debitResources}
