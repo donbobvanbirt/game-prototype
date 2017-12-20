@@ -6,6 +6,7 @@ const gameSchema = new mongoose.Schema({
     status: { type: String },
     position: { type: Array },
     buildings: { type: Object },
+    resourceAbundance: { type: Array },
   }]],
   // name: { type: String, required: true },
   resources: {

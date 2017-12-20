@@ -18,7 +18,7 @@ const HexInfoModal = ({
   build,
   canAfford,
 }) => {
-  const { status, buildings } = hex;
+  const { status, buildings, resourceAbundance } = hex;
   const controlled = status === 'controlled';
   return (
     <Modal open={!!hex} onClose={close} closeIcon>
@@ -30,11 +30,15 @@ const HexInfoModal = ({
 
           <ContentContainer>
             {!controlled && <p>You must build a base to gain controll of this area</p>}
-            <Header as="h3">Abundant in:</Header>
-            <List>
-              <List.Item>Iron</List.Item>
-              <List.Item>Helium</List.Item>
-            </List>
+            {resourceAbundance.length > 0 &&
+              <div>
+                <Header as="h3">Abundant in:</Header>
+                <List>
+                  {resourceAbundance.map((resource, i) => (
+                    <List.Item key={`abundantResource-${i}`}>{resource}</List.Item>
+                  ))}
+                </List>
+              </div>}
           </ContentContainer>
 
           {!isEmpty(buildings) &&
