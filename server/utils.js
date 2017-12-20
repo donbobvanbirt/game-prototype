@@ -26,6 +26,10 @@ function calculateNeighbors(x, y) {
   ].filter(validate);
 }
 
+function calculateAbundance() {
+  
+}
+
 const defaultGrid = () => {
   const grid = [];
   for (let x = 0; x < 20; x++) {
@@ -38,6 +42,7 @@ const defaultGrid = () => {
         status,
         number: (y + 1) + (x * 20),
         buildings: {},
+        resourceAbundance: calculateAbundance(),
       });
     }
     grid.push(row);
