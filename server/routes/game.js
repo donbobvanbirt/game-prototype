@@ -46,7 +46,7 @@ router.put('/:gameId', (req, res) => {
 router.get('/:gameId', (req, res) => {
   Game.findOne({ _id: req.params.gameId })
     .then((games) => {
-      getRevenue(req.params.gameId)
+      getRevenue(req.params.gameId);
       res.send(games)
     })
     .catch(err => res.status(400).send(err));

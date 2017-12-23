@@ -122,76 +122,65 @@ const buildingRevenue = {
 const producingBuildings = Object.keys(buildingRevenue);
 
 function getRevenue(_id) {
-  Game.findOne({ _id })
-    .then(({ resources, grid }) => {
-      const newResources = resources;
-      const income = {};
-      const expence = {};
-      grid.forEach((row) => {
-        row.forEach((hex) => {
-          const { status, resourceAbundance, buildings } = hex;
-          if (status === "controlled") {
-            Object.keys(buildings).forEach((building) => {
-              if (producingBuildings.indexOf(building) > -1) {
-                const { level } = buildings[building];
-                const { cost, output, levelBonus, staticSupply } = buildingRevenue[building];
-                const multiplier = resourceMultiplier[output];
-                const techBonus = 1;
-                const hexBonus = resourceAbundance.indexOf(multiplier) > -1 ?
-                  3 :
-                  1;
-                const levelBonusMultiplier = levelBonus[level] || 1;
-                const randomMultiplier = staticSupply ? 1 : Math.random();
+  Game.findOne({ _id }, (err, game) => {
+    if (err) console.error('error finding game', err);
 
-                const production = randomMultiplier * hexBonus * techBonus * multiplier * levelBonusMultiplier;
+    const { resources, grid } = game;
+    const newResources = resources;
+    const income = {};
+    const expence = {};
 
-                let canAfford = true;
-                if (cost) {
-                  Object.keys(cost).forEach((resource) => {
-                    const resourceExpence = cost[resource] * production;
-                    const newBallance = newResources[resource] - resourceExpence;
-                    if (newBallance < 0) {
-                      canAfford = false;
-                    }
-                    if (canAfford) {
-                      expence[resource] = expence[resource] ? expence[resource] + resourceExpence : resourceExpence;
-                      newResources[resource] = newBallance;
-                    }
-                  })
-                }
+    grid.forEach((row) => {
+      row.forEach((hex) => {
+        const { status, resourceAbundance, buildings } = hex;
+        if (status === "controlled") {
+          Object.keys(buildings).forEach((building) => {
+            if (producingBuildings.indexOf(building) > -1) {
+              const { level } = buildings[building];
+              const { cost, output, levelBonus, staticSupply } = buildingRevenue[building];
+              const multiplier = resourceMultiplier[output];
+              const techBonus = 1;
+              const hexBonus = resourceAbundance.indexOf(multiplier) > -1 ?
+                3 :
+                1;
+              const levelBonusMultiplier = levelBonus[level] || 1;
+              const randomMultiplier = staticSupply ? 1 : Math.random();
 
-                if (canAfford) {
-                  income[output] = income[output] ? income[output] + production : production;
-                  newResources[output] = newResources[output] + production;
+              const production = randomMultiplier * hexBonus * techBonus * multiplier * levelBonusMultiplier;
 
-                  console.log(`${output} production:`, production);
-                }
+              let canAfford = true;
+              if (cost) {
+                Object.keys(cost).forEach((resource) => {
+                  const resourceExpence = cost[resource] * production;
+                  const newBallance = newResources[resource] - resourceExpence;
+                  if (newBallance < 0) {
+                    canAfford = false;
+                  }
+                  if (canAfford) {
+                    expence[resource] = expence[resource] ? expence[resource] + resourceExpence : resourceExpence;
+                    newResources[resource] = newBallance;
+                  }
+                })
               }
-            })
-          }
-        })
+
+              if (canAfford) {
+                income[output] = income[output] ? income[output] + production : production;
+                newResources[output] = newResources[output] + production;
+                // console.log(`${output} production:`, production);
+              }
+            }
+          })
+        }
       })
-      console.log('income:', income);
-      console.log('expence:', expence);
-      console.log('newResources:', newResources);
-      // return newResources;
-      // Game.findOneAndUpdate(
-      //   { _id },
-      //   { $set: { resources: newResources } },
-      //   { new: true },
-      // )
     })
-    // .then((resources) => {
-    //   console.log('_id:', _id);
-    //   console.log('resources:', resources);
-    //   // Game.findOneAndUpdate(
-    //   //   { _id },
-    //   //   { $set: { resources: resources } },
-    //   //   { new: true },
-    //   // )
-    // })
-    // .then(game => console.log('game:', game))
-    // .catch(err => console.error('error updating resources income', err));
+
+    game.resources = newResources;
+
+    game.save((err, newGame) => {
+      if (err => console.error('error saving game:', err));
+      // console.log('newGame:', newGame);
+    })
+  })
 }
 
 module.exports = getRevenue;
