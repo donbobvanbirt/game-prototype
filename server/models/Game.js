@@ -23,7 +23,8 @@ const gameSchema = new mongoose.Schema({
     steel: { type: Number, required: true, default: 1000 },
     machineParts: { type: Number, required: true, default: 1000 },
     computerHardware: { type: Number, required: true, default: 1000 },
-  }
+  },
+  // active: { type: Bool,true},
 });
 
 const Game = mongoose.model('Game', gameSchema);
