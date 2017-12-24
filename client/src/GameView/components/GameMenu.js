@@ -79,7 +79,7 @@ class GameMenu extends Component {
             listItems.map(({ name, value }) => (
               <List.Item key={`resource-list-item-${value}`}>
                 <ResourceValue floated="right" value={resources[value]}>
-                  {resources[value]}
+                  {Math.round(resources[value] * 100) / 100}
                 </ResourceValue>
                 {name}
               </List.Item>
