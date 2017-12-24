@@ -1,5 +1,3 @@
-// const express = require('express');
-
 const Game = require('./Game');
 
 const resourceMultiplier = {
@@ -166,15 +164,15 @@ function getRevenue(_id) {
               if (canAfford) {
                 income[output] = income[output] ? income[output] + production : production;
                 newResources[output] = newResources[output] + production;
-                // console.log(`${output} production:`, production);
               }
             }
           })
         }
       })
     })
-
+    // console.log('income:', income);
     game.resources = newResources;
+    game.active = true;
 
     game.save((err, newGame) => {
       if (err => console.error('error saving game:', err));
@@ -183,4 +181,85 @@ function getRevenue(_id) {
   })
 }
 
-module.exports = getRevenue;
+function findGameTimeInterval(_id, cb) {
+  Game.findOne({ _id }, (err, game) => {
+    if (err) {
+      console.error('error finding game', err);
+      return cb('error finding game');
+    }
+
+    const { lastSeen } = game;
+
+    const awayInterval = 172800000;
+
+    if (Date.now() - lastSeen > awayInterval) {
+      game.active = false;
+
+      game.save((err, newGame) => {
+        if (err) {
+          console.error('error saving game:', err)
+          cb(err);
+          return;
+        }
+      });
+      cb('game stopping');
+    } else {
+      cb();
+    }
+  });
+}
+
+function findGameActiveStatus(_id, cb) {
+  Game.findOne({ _id }, (err, game) => {
+    if (err) {
+      console.error('error finding game', err);
+      return cb('error finding game');
+    }
+
+    const { active } = game;
+
+    // set lastSeen
+    game.lastSeen = Date.now();
+    game.save((err, newGame) => {
+      if (err) {
+        console.error('error saving game:', err)
+        cb(err);
+        return;
+      }
+
+      if (active) {
+        // console.log('game is already active');
+        return cb('game is already active');
+      } else {
+        return cb();
+      }
+    })
+  });
+}
+
+function counter(_id) {
+  findGameTimeInterval(_id, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      // console.log('about to getRevenue');
+      getRevenue(_id);
+
+      setTimeout(() => {
+        counter(_id);
+      }, 3600000);
+    }
+  })
+}
+
+function setCounter(_id) {
+  findGameActiveStatus(_id, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      counter(_id)
+    }
+  })
+}
+
+module.exports = setCounter;

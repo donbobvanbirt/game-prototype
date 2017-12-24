@@ -8,7 +8,9 @@ const gameSchema = new mongoose.Schema({
     buildings: { type: Object },
     resourceAbundance: { type: Array },
   }]],
-  // name: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  lastSeen: { type: Date, default: Date.now },
+  active: { type: Boolean, default: false },
   resources: {
     energy: { type: Number, required: true, default: 3000 },
     iron: { type: Number, required: true, default: 500 },
@@ -24,7 +26,7 @@ const gameSchema = new mongoose.Schema({
     machineParts: { type: Number, required: true, default: 500 },
     computerHardware: { type: Number, required: true, default: 0 },
   },
-  // active: { type: Bool,true},
+  // active: { type: Bool, required: true, default: false },
 });
 
 const Game = mongoose.model('Game', gameSchema);
