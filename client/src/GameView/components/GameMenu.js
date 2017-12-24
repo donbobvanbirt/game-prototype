@@ -20,10 +20,10 @@ const resourceGroup1 = [
 ];
 
 const resourceGroup2 = [
-  { name: 'Carbon', value: 'iron' },
+  { name: 'Carbon', value: 'carbon' },
   { name: 'Hydrogen', value: 'hydrogen' },
   { name: 'Silicon', value: 'silicon' },
-  { name: 'copper', value: 'copper' },
+  { name: 'Copper', value: 'copper' },
 ];
 
 const resourceGroup3 = [
