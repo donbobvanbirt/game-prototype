@@ -1,5 +1,8 @@
 const Game = require('./Game');
 
+const AWAY_INTERVAL = process.env.AWAY_INTERVAL;
+const TURN_INTERVAL = process.env.TURN_INTERVAL;
+
 const resourceMultiplier = {
   energy: 1,
   iron: 2,
@@ -170,7 +173,9 @@ function getRevenue(_id) {
         }
       })
     })
-    // console.log('income:', income);
+    console.log('timestamp:', Date.now());
+    console.log('income:', income);
+    console.log('expence:', expence);
     game.resources = newResources;
     game.active = true;
 
@@ -190,9 +195,7 @@ function findGameTimeInterval(_id, cb) {
 
     const { lastSeen } = game;
 
-    const awayInterval = 172800000;
-
-    if (Date.now() - lastSeen > awayInterval) {
+    if (Date.now() - lastSeen > AWAY_INTERVAL) {
       game.active = false;
 
       game.save((err, newGame) => {
@@ -228,7 +231,6 @@ function findGameActiveStatus(_id, cb) {
       }
 
       if (active) {
-        // console.log('game is already active');
         return cb('game is already active');
       } else {
         return cb();
@@ -247,7 +249,7 @@ function counter(_id) {
 
       setTimeout(() => {
         counter(_id);
-      }, 3600000);
+      }, TURN_INTERVAL);
     }
   })
 }
