@@ -123,19 +123,22 @@ const buildingRevenue = {
 const producingBuildings = Object.keys(buildingRevenue);
 
 function canAfford(cost, availableResources, production) {
+  // console.log('production in canAfford:', production);
   const neededResources = Object.keys(cost);
   let affordable = true;
 
   for (let i = 0; i < neededResources.length; i++) {
     const resource = neededResources[i];
     if (availableResources[resource] - (cost[resource] * production) < 0) {
+      // console.log('resource:', resource);
+      // console.log('available - cost:', availableResources[resource] - (cost[resource] * production));
       affordable = false;
     }
   }
 
-  console.log('cost:', cost);
-  console.log('availableResources:', availableResources);
-  console.log('affordable:', affordable);
+  // console.log('cost:', cost);
+  // console.log('availableResources:', availableResources);
+  // console.log('affordable:', affordable);
   return affordable;
 }
 
@@ -181,23 +184,19 @@ function getRevenue(_id) {
 
               const production = randomMultiplier * hexBonus * techBonus * multiplier * levelBonusMultiplier;
 
-              // let canAfford = true;
-              // const affordable = canAfford(cost, newResources);
-
               if (cost && canAfford(cost, resources, production)) {
                 Object.keys(cost).forEach((resource) => {
                   const resourceExpence = cost[resource] * production;
                   const newBallance = newResources[resource] - resourceExpence;
-                  // if (newBallance < 0) {
-                  //   canAfford = false;
-                  // }
-                  // if (canAfford) {
+
                   expence[resource] = expence[resource] ? expence[resource] + resourceExpence : resourceExpence;
                   newResources[resource] = newBallance;
-                  // }
-                  income[output] = income[output] ? income[output] + production : production;
-                  newResources[output] = newResources[output] + production;
+
                 })
+                // console.log('output:', output);
+                // console.log('production:', production);
+                income[output] = income[output] ? income[output] + production : production;
+                newResources[output] = newResources[output] + production;
               }
 
               if (!cost) {
@@ -218,9 +217,10 @@ function getRevenue(_id) {
     });
 
     console.log('timestamp:', Date.now());
-    console.log('income:', income);
-    console.log('expence:', expence);
     console.log('change:', change);
+    console.log('newResources:', newResources);
+    // console.log('income:', income);
+    // console.log('expence:', expence);
     game.resources = newResources;
     game.active = true;
 
