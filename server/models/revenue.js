@@ -122,6 +122,23 @@ const buildingRevenue = {
 
 const producingBuildings = Object.keys(buildingRevenue);
 
+function canAfford(cost, availableResources, production) {
+  const neededResources = Object.keys(cost);
+  let affordable = true;
+
+  for (let i = 0; i < neededResources.length; i++) {
+    const resource = neededResources[i];
+    if (availableResources[resource] - (cost[resource] * production) < 0) {
+      affordable = false;
+    }
+  }
+
+  console.log('cost:', cost);
+  console.log('availableResources:', availableResources);
+  console.log('affordable:', affordable);
+  return affordable;
+}
+
 function getRevenue(_id) {
   Game.findOne({ _id }, (err, game) => {
     if (err) console.error('error finding game', err);
@@ -130,6 +147,21 @@ function getRevenue(_id) {
     const newResources = resources;
     const income = {};
     const expence = {};
+    const change = {
+      energy: 0,
+      iron: 0,
+      gold: 0,
+      silver: 0,
+      nickel: 0,
+      carbon: 0,
+      hydrogen: 0,
+      platinum: 0,
+      silicon: 0,
+      copper: 0,
+      steel: 0,
+      machineParts: 0,
+      computerHardware: 0,
+    };
 
     grid.forEach((row) => {
       row.forEach((hex) => {
@@ -149,22 +181,26 @@ function getRevenue(_id) {
 
               const production = randomMultiplier * hexBonus * techBonus * multiplier * levelBonusMultiplier;
 
-              let canAfford = true;
-              if (cost) {
+              // let canAfford = true;
+              // const affordable = canAfford(cost, newResources);
+
+              if (cost && canAfford(cost, resources, production)) {
                 Object.keys(cost).forEach((resource) => {
                   const resourceExpence = cost[resource] * production;
                   const newBallance = newResources[resource] - resourceExpence;
-                  if (newBallance < 0) {
-                    canAfford = false;
-                  }
-                  if (canAfford) {
-                    expence[resource] = expence[resource] ? expence[resource] + resourceExpence : resourceExpence;
-                    newResources[resource] = newBallance;
-                  }
+                  // if (newBallance < 0) {
+                  //   canAfford = false;
+                  // }
+                  // if (canAfford) {
+                  expence[resource] = expence[resource] ? expence[resource] + resourceExpence : resourceExpence;
+                  newResources[resource] = newBallance;
+                  // }
+                  income[output] = income[output] ? income[output] + production : production;
+                  newResources[output] = newResources[output] + production;
                 })
               }
 
-              if (canAfford) {
+              if (!cost) {
                 income[output] = income[output] ? income[output] + production : production;
                 newResources[output] = newResources[output] + production;
               }
@@ -172,10 +208,19 @@ function getRevenue(_id) {
           })
         }
       })
-    })
+    });
+
+    Object.keys(change).forEach((item) => {
+      const increase = income[item] || 0;
+      const decrease = expence[item] || 0;
+
+      change[item] = increase - decrease;
+    });
+
     console.log('timestamp:', Date.now());
     console.log('income:', income);
     console.log('expence:', expence);
+    console.log('change:', change);
     game.resources = newResources;
     game.active = true;
 
