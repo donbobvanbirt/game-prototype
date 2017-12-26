@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Table, Popup, List, Modal } from 'semantic-ui-react';
+import { Icon, Table, Popup, List, Modal, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import { industrialItems } from '../../industrialItems';
-
-const TableLink = styled.a`
-  cursor: pointer;
-`;
 
 const AddIcon = styled(Icon)`
   cursor: pointer;
@@ -46,21 +42,29 @@ class IndustryTableModal extends Component {
       spaceAvailable;
 
     return (
-      <Table.Row disabled={!canBuild} key={`industry-row-${displayName}`}>
-        <Table.Cell collapsing>
+      <Table.Row key={`industry-row-${displayName}`}>
+        <Table.Cell disabled={!canBuild} collapsing>
           <Icon name={icon} /> {displayName}
         </Table.Cell>
-        <Table.Cell>{description}</Table.Cell>
-        {
-          canBuild ?
-            <Table.Cell selectable>
-              <Popup
-                content={this.renderCostList(cost)}
-                trigger={<TableLink onClick={() => this.props.build(item)}>Build</TableLink>}
-              />
-            </Table.Cell> :
-            <Table.Cell />
-        }
+        <Table.Cell disabled={!canBuild}>
+          {description}
+        </Table.Cell>
+        <Table.Cell selectable collapsing>
+          <Popup
+            content={this.renderCostList(cost)}
+            trigger={
+              <div>
+                <Button
+                  onClick={() => this.props.build(item)}
+                  disabled={!canBuild}
+                >
+                  Build
+                </Button>
+              </div>
+            }
+          />
+        </Table.Cell>
+
       </Table.Row>
     );
   }
