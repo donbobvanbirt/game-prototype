@@ -20,10 +20,10 @@ const resourceGroup1 = [
 ];
 
 const resourceGroup2 = [
-  { name: 'Carbon', value: 'iron' },
+  { name: 'Carbon', value: 'carbon' },
   { name: 'Hydrogen', value: 'hydrogen' },
   { name: 'Silicon', value: 'silicon' },
-  { name: 'copper', value: 'copper' },
+  { name: 'Copper', value: 'copper' },
 ];
 
 const resourceGroup3 = [
@@ -79,7 +79,7 @@ class GameMenu extends Component {
             listItems.map(({ name, value }) => (
               <List.Item key={`resource-list-item-${value}`}>
                 <ResourceValue floated="right" value={resources[value]}>
-                  {resources[value]}
+                  {Math.round(resources[value] * 100) / 100}
                 </ResourceValue>
                 {name}
               </List.Item>
