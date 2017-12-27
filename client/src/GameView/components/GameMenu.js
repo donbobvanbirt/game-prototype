@@ -7,6 +7,7 @@ import moment from 'moment';
 import {
   black,
   lightGray,
+  darkGray,
   green,
   red,
   yellow,
@@ -38,7 +39,17 @@ const Container = styled.div`
   min-height: 100%;
   background-color: ${black};
   overflow: auto;
-  padding: 40px 24px 24px;
+  padding: 52.5px 24px 24px;
+`;
+
+const HideLink = styled.a`
+  color: ${darkGray};
+  cursor: pointer;
+  font-size: 12px;
+  font-style: italic;
+  &:hover {
+    color: ${lightGray};
+  }
 `;
 
 const InnerContainer = styled.div`
@@ -116,11 +127,12 @@ class GameMenu extends Component {
 
   render() {
     const { activeItem } = this.state;
-    const { resources, history } = this.props;
+    const { resources, history, toggle } = this.props;
 
     return (
       <Container>
-        <Menu tabular inverted>
+        <HideLink onClick={toggle}>hide</HideLink>
+        <Menu inverted>
           <Menu.Item name="balances" active={activeItem === 'balances'} onClick={this.handleItemClick} />
           <Menu.Item name="history" active={activeItem === 'history'} onClick={this.handleItemClick} />
         </Menu>
@@ -140,6 +152,7 @@ class GameMenu extends Component {
 GameMenu.propTypes = {
   resources: PropTypes.object,
   history: PropTypes.array,
+  toggle: PropTypes.func.isRequired,
 };
 
 export default GameMenu;

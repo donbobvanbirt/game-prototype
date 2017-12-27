@@ -17,6 +17,7 @@ import { darkGray, red } from '../shared/basic/colors';
 
 const Container = styled.div`
   height: 100%;
+  min-width: 350px;
   position: relative;
   overflow: hidden;
   background-color: ${darkGray};
@@ -81,7 +82,11 @@ class Layout extends Component {
           visible={sideMenuVisible}
           icon="labeled"
         >
-          <GameMenu resources={game.resources} history={game.history} />
+          <GameMenu
+            resources={game.resources}
+            history={game.history}
+            toggle={this.toggleSideMenu}
+          />
         </Sidebar>
       </Container>
     );
