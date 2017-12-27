@@ -158,7 +158,7 @@ function canAfford(cost, availableResources, production) {
   return affordable;
 }
 
-function getRevenue(_id) {
+function getRevenue(_id, socket) {
   Game.findOne({ _id }, (err, game) => {
     if (err) console.error('error finding game', err);
 
@@ -233,11 +233,15 @@ function getRevenue(_id) {
 
     game.resources = newResources;
     game.active = true;
-    game.history = gameHistory;
+    game.history = gameHistory.slice(0, 50);
 
     game.save((err, newGame) => {
       if (err => console.error('error saving game:', err));
-      // console.log('newGame:', newGame);
+      console.log('socket:', socket);
+      if (socket) {
+        socket('resources', newGame.resources);
+        socket('history', newGame.history);
+      }
     })
   })
 }
@@ -295,13 +299,13 @@ function findGameActiveStatus(_id, cb) {
   });
 }
 
-function counter(_id) {
+function counter(_id, socket) {
   findGameTimeInterval(_id, (err) => {
     if (err) {
       console.log(err);
     } else {
       // console.log('about to getRevenue');
-      getRevenue(_id);
+      getRevenue(_id, socket);
 
       setTimeout(() => {
         counter(_id);
@@ -310,12 +314,12 @@ function counter(_id) {
   })
 }
 
-function setCounter(_id) {
+function setCounter(_id, socket) {
   findGameActiveStatus(_id, (err) => {
     if (err) {
       console.log(err);
     } else {
-      counter(_id)
+      counter(_id, socket)
     }
   })
 }

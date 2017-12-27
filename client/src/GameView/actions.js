@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const io = require('socket.io-client');
+
 function gotGame(data) {
   return {
     type: 'GOT_GAME',
@@ -29,6 +31,11 @@ function updateGameFail(error) {
 }
 
 export function getGame(id) {
+  const socket = io();
+  socket.on('resources', (data) => {
+    console.log('SOCKET IO RESOURCES:', data);
+  });
+
   return dispatch => (
     axios.get(`/api/game/${id}`)
       .then(res => dispatch(gotGame(res.data)))
