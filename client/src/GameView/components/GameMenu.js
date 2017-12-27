@@ -11,22 +11,16 @@ import {
   yellow,
 } from '../../shared/basic/colors';
 
-const resourceGroup1 = [
+const resourceList = [
   { name: 'Iron', value: 'iron' },
   { name: 'Nickel', value: 'nickel' },
   { name: 'Silver', value: 'silver' },
   { name: 'Gold', value: 'gold' },
   { name: 'Platinum', value: 'platinum' },
-];
-
-const resourceGroup2 = [
   { name: 'Carbon', value: 'carbon' },
   { name: 'Hydrogen', value: 'hydrogen' },
   { name: 'Silicon', value: 'silicon' },
   { name: 'Copper', value: 'copper' },
-];
-
-const resourceGroup3 = [
   { name: 'Energy', value: 'energy' },
   { name: 'Steel', value: 'steel' },
   { name: 'Machine Parts', value: 'machineParts' },
@@ -40,20 +34,15 @@ const calculateColor = (value) => {
 };
 
 const Container = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
+  min-height: 100%;
   background-color: ${black};
+  overflow: auto;
+  padding: 40px 24px 24px;
 `;
 
 const InnerContainer = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
   margin-top: 22px;
 `;
 
@@ -78,10 +67,10 @@ class GameMenu extends Component {
           {
             listItems.map(({ name, value }) => (
               <List.Item key={`resource-list-item-${value}`}>
+                {name}
                 <ResourceValue floated="right" value={resources[value]}>
                   {Math.round(resources[value] * 100) / 100}
                 </ResourceValue>
-                {name}
               </List.Item>
             ))
           }
@@ -95,9 +84,7 @@ class GameMenu extends Component {
       <Container>
         {this.props.resources &&
           <InnerContainer>
-            {this.renderList(resourceGroup1)}
-            {this.renderList(resourceGroup2)}
-            {this.renderList(resourceGroup3)}
+            {this.renderList(resourceList)}
           </InnerContainer>}
       </Container>
     );

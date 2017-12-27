@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Dropdown, Menu } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const CustomMenu = styled(Menu)`
   border-radius: 0 !important;
@@ -17,6 +18,7 @@ export default class HeaderMenu extends Component {
 
   render() {
     const { activeItem } = this.state;
+    const { toggleSideMenu } = this.props;
 
     return (
       <CustomMenu inverted>
@@ -26,17 +28,16 @@ export default class HeaderMenu extends Component {
         <Menu.Item name="tutorial" active={activeItem === 'tutorial'} onClick={this.handleItemClick} />
 
         <Menu.Menu position="right">
-          <Dropdown item text="Language">
-            <Dropdown.Menu>
-              <Dropdown.Item>English</Dropdown.Item>
-              <Dropdown.Item>Russian</Dropdown.Item>
-              <Dropdown.Item>Spanish</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <Menu.Item name="account" active={activeItem === 'account'} onClick={this.handleItemClick} />
+          {!!toggleSideMenu &&
+            <Menu.Item name="account" onClick={toggleSideMenu} >
+              <Icon name="bars" />
+            </Menu.Item>}
         </Menu.Menu>
       </CustomMenu>
     );
   }
 }
+
+HeaderMenu.propTypes = {
+  toggleSideMenu: PropTypes.func,
+};

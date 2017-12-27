@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader, Sidebar } from 'semantic-ui-react';
 import { isEmpty } from 'lodash';
 
 import HeaderMenu from '../navigation/HeaderMenu';
@@ -28,10 +28,19 @@ const ErrorMessage = styled.h1`
 `;
 
 class Layout extends Component {
+  state = { sideMenuVisible: true };
+
   componentDidMount() {
     const { requestGame, match } = this.props;
 
     requestGame(match.params.id);
+  }
+
+  toggleSideMenu = () => {
+    console.log('sideMenuVisible:', this.state.sideMenuVisible);
+    this.setState({
+      sideMenuVisible: !this.state.sideMenuVisible,
+    });
   }
 
   debitResources = (costObj) => {
@@ -48,10 +57,11 @@ class Layout extends Component {
 
   render() {
     const { game, update } = this.props;
+    const { sideMenuVisible } = this.state;
 
     return (
       <Container>
-        <HeaderMenu />
+        <HeaderMenu toggleSideMenu={this.toggleSideMenu} />
         <Dimmer active={isEmpty(game)}>
           <Loader />
         </Dimmer>
@@ -64,7 +74,15 @@ class Layout extends Component {
           debitResources={this.debitResources}
           updateGame={update}
         />
-        <GameMenu resources={game.resources} />
+        <Sidebar
+          animation="overlay"
+          width="wide"
+          direction="right"
+          visible={sideMenuVisible}
+          icon="labeled"
+        >
+          <GameMenu resources={game.resources} />
+        </Sidebar>
       </Container>
     );
   }
