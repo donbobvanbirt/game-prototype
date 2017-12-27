@@ -19,6 +19,22 @@ const resourceMultiplier = {
   computerHardware: 1,
 }
 
+const resourceList = [
+  'energy',
+  'iron',
+  'gold',
+  'silver',
+  'nickel',
+  'carbon',
+  'hydrogen',
+  'platinum',
+  'silicon',
+  'copper',
+  'steel',
+  'machineParts',
+  'computerHardware',
+];
+
 const buildingRevenue = {
   'ironMine': {
     cost: null,
@@ -146,25 +162,12 @@ function getRevenue(_id) {
   Game.findOne({ _id }, (err, game) => {
     if (err) console.error('error finding game', err);
 
-    const { resources, grid } = game;
+    const { resources, grid, history } = game;
+    const gameHistory = history || [];
     const newResources = resources;
     const income = {};
     const expence = {};
-    const change = {
-      energy: 0,
-      iron: 0,
-      gold: 0,
-      silver: 0,
-      nickel: 0,
-      carbon: 0,
-      hydrogen: 0,
-      platinum: 0,
-      silicon: 0,
-      copper: 0,
-      steel: 0,
-      machineParts: 0,
-      computerHardware: 0,
-    };
+    const change = {};
 
     grid.forEach((row) => {
       row.forEach((hex) => {
@@ -209,11 +212,14 @@ function getRevenue(_id) {
       })
     });
 
-    Object.keys(change).forEach((item) => {
+    resourceList.forEach((item) => {
       const increase = income[item] || 0;
       const decrease = expence[item] || 0;
 
-      change[item] = increase - decrease;
+      const diff = increase - decrease;
+      if (diff) {
+        change[item] = diff;
+      }
     });
 
     console.log('timestamp:', Date.now());
@@ -221,8 +227,13 @@ function getRevenue(_id) {
     console.log('newResources:', newResources);
     // console.log('income:', income);
     // console.log('expence:', expence);
+    if (Object.keys(change).length) {
+      gameHistory.unshift({ timestamp: Date.now(), change });
+    }
+
     game.resources = newResources;
     game.active = true;
+    game.history = gameHistory;
 
     game.save((err, newGame) => {
       if (err => console.error('error saving game:', err));

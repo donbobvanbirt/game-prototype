@@ -26,7 +26,7 @@ const gameSchema = new mongoose.Schema({
     machineParts: { type: Number, required: true, default: 350 },
     computerHardware: { type: Number, required: true, default: 0 },
   },
-  // active: { type: Bool, required: true, default: false },
+  history: { type: Array }
 });
 
 const Game = mongoose.model('Game', gameSchema);
