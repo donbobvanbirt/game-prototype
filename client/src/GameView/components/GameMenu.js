@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { List } from 'semantic-ui-react';
+import { List, Menu } from 'semantic-ui-react';
+import moment from 'moment';
 
 import {
   black,
@@ -56,11 +57,18 @@ const ResourceValue = styled(List.Content)`
   color: ${props => calculateColor(props.value)};
 `;
 
-class GameMenu extends Component {
-  state = {}
+const IncomeValue = styled(List.Content)`
+  color: ${props => props.value > 0 ? green : red};
+`;
 
-  renderList(listItems) {
+class GameMenu extends Component {
+  state = { activeItem: 'balances' }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  renderResourceList(listItems) {
     const { resources } = this.props;
+
     return (
       <ListContainer>
         <ResourceList>
@@ -79,12 +87,50 @@ class GameMenu extends Component {
     );
   }
 
+  renderHistory() {
+    return (
+      <ListContainer>
+        <ResourceList>
+          {this.props.history.map((item) => {
+            const { change, timestamp } = item;
+            return (
+              <List.Item key={`history-list-${timestamp}`}>
+                {moment(timestamp).fromNow()}
+                <List.List>
+                  {Object.keys(change).map(resource => (
+                    <List.Item key={`income-list-${timestamp}-${resource}`}>
+                      {resource}
+                      <IncomeValue floated="right" value={change[resource]}>
+                        {Math.round(change[resource] * 100) / 100}
+                      </IncomeValue>
+                    </List.Item>
+                  ))}
+                </List.List>
+              </List.Item>
+            );
+          })}
+        </ResourceList>
+      </ListContainer>
+    );
+  }
+
   render() {
+    const { activeItem } = this.state;
+    const { resources, history } = this.props;
+
     return (
       <Container>
-        {this.props.resources &&
+        <Menu tabular inverted>
+          <Menu.Item name="balances" active={activeItem === 'balances'} onClick={this.handleItemClick} />
+          <Menu.Item name="history" active={activeItem === 'history'} onClick={this.handleItemClick} />
+        </Menu>
+        {activeItem === 'balances' && !!resources &&
           <InnerContainer>
-            {this.renderList(resourceList)}
+            {this.renderResourceList(resourceList)}
+          </InnerContainer>}
+        {activeItem === 'history' && !!history &&
+          <InnerContainer>
+            {this.renderHistory()}
           </InnerContainer>}
       </Container>
     );
@@ -93,6 +139,7 @@ class GameMenu extends Component {
 
 GameMenu.propTypes = {
   resources: PropTypes.object,
+  history: PropTypes.array,
 };
 
 export default GameMenu;

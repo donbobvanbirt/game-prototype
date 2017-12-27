@@ -81,7 +81,7 @@ class Layout extends Component {
           visible={sideMenuVisible}
           icon="labeled"
         >
-          <GameMenu resources={game.resources} />
+          <GameMenu resources={game.resources} history={game.history} />
         </Sidebar>
       </Container>
     );
