@@ -260,7 +260,7 @@ function findGameTimeInterval(_id, cb) {
           return;
         }
       });
-      cb('game stopping');
+      cb('game is inactive');
     } else {
       cb();
     }
@@ -274,9 +274,9 @@ function findGameActiveStatus(_id, cb) {
       return cb('error finding game');
     }
 
-    const { active } = game;
+    const { active, history } = game;
+    const lastUpdated = (history && history[0]) ? history[0].timestamp : 0;
 
-    // set lastSeen
     game.lastSeen = Date.now();
     game.save((err, newGame) => {
       if (err) {
@@ -285,7 +285,7 @@ function findGameActiveStatus(_id, cb) {
         return;
       }
 
-      if (active) {
+      if (active && (game.lastSeen - lastUpdated) < (TURN_INTERVAL * 1.2)) {
         return cb('game is already active');
       } else {
         return cb();
