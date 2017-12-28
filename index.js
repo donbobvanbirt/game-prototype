@@ -29,7 +29,6 @@ io.on('connection', (socket) => {
 
 app.use((req, res, next) => {
   res.socketEmitter = socketEmitter;
-  console.log('res.socketEmitter:', res.socketEmitter);
   next();
 });
 
