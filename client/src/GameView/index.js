@@ -12,6 +12,7 @@ import GameMenu from './components/GameMenu';
 import Map from './components/Map';
 
 import { getGame, updateGame } from './actions';
+import { listenToResources } from '../ws';
 
 import { darkGray, red } from '../shared/basic/colors';
 
@@ -35,6 +36,7 @@ class Layout extends Component {
     const { requestGame, match } = this.props;
 
     requestGame(match.params.id);
+    listenToResources();
   }
 
   toggleSideMenu = () => {

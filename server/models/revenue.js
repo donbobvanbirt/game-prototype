@@ -233,11 +233,10 @@ function getRevenue(_id) {
 
     game.resources = newResources;
     game.active = true;
-    game.history = gameHistory;
+    game.history = gameHistory.slice(0, 50);
 
     game.save((err, newGame) => {
       if (err => console.error('error saving game:', err));
-      // console.log('newGame:', newGame);
     })
   })
 }

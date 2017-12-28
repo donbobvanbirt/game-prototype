@@ -46,6 +46,7 @@ router.put('/:gameId', (req, res) => {
 router.get('/:gameId', (req, res) => {
   Game.findOne({ _id: req.params.gameId })
     .then((game) => {
+      // console.log('res.socketEmitter:', res.socketEmitter);
       setCounter(req.params.gameId);
       res.send(game)
     })

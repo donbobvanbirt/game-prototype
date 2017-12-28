@@ -15,7 +15,22 @@ mongoose.connect(MONGODB_URI, (err) => {
   console.log(err || `MongoDB connected to ${MONGODB_URI}`);
 });
 
+// APP DECLARATION
 const app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+// SOCKET.IO
+let socketEmitter;
+io.on('connection', (socket) => {
+  console.log('SOCKET ON');
+  socketEmitter = (type, data) => socket.emit(type, data);
+});
+
+app.use((req, res, next) => {
+  res.socketEmitter = socketEmitter;
+  next();
+});
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -29,6 +44,6 @@ app.get('*', (req, res) => {
 });
 
 const port = process.env.PORT || 5000;
-app.listen(port);
+server.listen(port);
 
 console.log(`Express listening on PORT ${port}`);
